@@ -10,7 +10,7 @@ const treatmentSchema = mongoose.Schema(
       ref: 'User',
     },
     // schema for the booking
-    name: {
+    therapy: {
       type: String,
       required: true,
     },

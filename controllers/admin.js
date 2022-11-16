@@ -5,6 +5,10 @@ const Treatment = require("../models/treatment");
 const authMiddleware = require("../middlewares/authMiddleware");
 const { default: axios } = require("axios");
 
+const getAllTreatment= asyncHandler(async(res, req) =>{
+    const treatments = await Treatment.find({})
+})
+
 exports.get("/get-all-treatment", authMiddleware, async (req, res) => {
   try {
     const treatments = await Treatment.find({});

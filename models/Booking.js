@@ -6,30 +6,31 @@ const bookingSchema = new mongoose.Schema(
       required: true,
       ref: 'User',
     },
-       treatment: {
-      type: mongoose.Schema.Types.ObjectId,
+      
+    bookingItems: [
+      {
+        name: { type: String, required: true },
+        
+        date:{type: String,
+      required: true},
+      
+      time: {
+      type: String,
       required: true,
-      ref: 'Treatment',
-    }, 
+    },
+        price: { type: Number, required: true },
+        treatment: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Treatment',
+        },
+      },
+    ],
+
     
    
-   
-    date: {
-      type: String,
-      required: true,
-    },
-    time: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      required: true,
-      default: "pending",
-    },
-  },
-  {
-    timestamps: true,
+  
+  
   }
 );
 

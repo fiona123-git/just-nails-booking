@@ -1,6 +1,6 @@
 // create router for routes
-const express = require('express')
-const router = express.Router()
+const express = require('express') // import express
+const router = express.Router() // import router
 const {
   authUser,
   registerUser,
@@ -11,10 +11,10 @@ const {
   getUserById,
   updateUser,
   getBookingbyId
-} = require('../controllers/user')
-const { protect, admin } = require ('../middleware/authMiddleware')
-
-router.route('/').post(registerUser).get(protect, admin, getUsers)
+} = require('../controllers/user') //routes from user controller
+const { protect, admin } = require ('../middleware/authMiddleware') //middleware for admin authentication
+// routes for api
+router.route('/').post(registerUser).get(protect, admin, getUsers) 
 router.post('/login', authUser)
 router
   .route('/profile')
@@ -25,6 +25,6 @@ router
   .delete(protect, admin, deleteUser)
   .get(protect, admin, getUserById)
   .put(protect, admin, updateUser)
-  .get(protect, getBookingbyId )
+  .get(protect, admin,getBookingbyId )
 
 module.exports = router

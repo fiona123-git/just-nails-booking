@@ -9,9 +9,9 @@ const Treatment = require ('../models/Treatment')
 
 const getTreatment = asyncHandler(async (req, res) => {
     // match the id of the user
-    const treatment = await Treatment.find({
-        user: req.user.id
-    })
+    const treatment = await Treatment.find({ user: req.user.id})
+ 
+  
 
     res.status(200).json(treatment)
     
@@ -33,20 +33,20 @@ const getTreatmentById = asyncHandler(async (req, res) => {
 
 const updateTreatment = asyncHandler(async (req, res) => {
   const {
-    name,
+    therapy,
     
     description,
     price
  } = req.body
 
-  const treatment = await Treatment.findById(req.params.id)
+  const treatment = await Treatment.findById(req.params.body)
 
   if (treatment) {
 
-    treatment.name = name
+    treatment.therapy = therapy
     treatment.description = description
     treatment.price= price
-    const updatedTreatment = await treatment.save()
+    const updatedTreatment = await Treatment.save()
     res.json(updatedTreatment)
   } else {
     res.status(404)
@@ -57,24 +57,48 @@ const updateTreatment = asyncHandler(async (req, res) => {
 
 
 const createTreatment = asyncHandler (async(res ,req)=>{
-  const treatment = new Treatment.create({
-        treatment, user: req.user._id,price, time, date
+  
+ /* const treatment = new Treatment({
+    
+ 
   })
+  
     
     const createdTreatment = await treatment.save()
   
-  res.status(200).json(createdTreatment)
-})
+  res.status(200).json(createdTreatment)*/
+ try {
+    const treatment = await Treatment.findOne({ treatment: req.body.treatment });
+    if (treatment) {
+      return res.status(200).send({
+        success: false,
+        message: "Bus already exists",
+      });
+    }
+  const createdTreatment = new Treatment(req.body);
+    await createdTreatment.save();
+    return res.status(200).send({
+      success: true,
+      message: "treatment added successfully",
+    });
+  } catch (error) {
+    res.status(500).send({ success: false, message: error.message });
+  }
+}) 
+
+
+
+
 
 const deleteTreatment = asyncHandler(async (req, res) => {
   const treatment = await Treatment.findById(req.params.id)
 
   if (treatment) {
     await treatment.remove()
-    res.json({ message: 'Product removed' })
+    res.json({ message: 'treatment removed' })
   } else {
     res.status(404)
-    throw new Error('Product not found')
+    throw new Error('treatment not found')
   }
 })
 
