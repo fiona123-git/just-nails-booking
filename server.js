@@ -11,15 +11,14 @@ require ('dotenv').config()
 
 app.use(bodyParser.json());
 
-const treatments= require ('./routes/treatment')
+const treatments= require ('./routes/treatmentRoutes')
 const user = require('./routes/user')
 
 
 //cors added
 app.use(cors())
 
-app.use(bodyParser.urlencoded({
-    extended: false
+app.use(bodyParser.urlencoded({    extended: false
 }));
 
 // connect database

@@ -85,3 +85,25 @@ exports.post(
 
 
 
+const updateTreatment= asyncHandler(async(res, req) =>{
+    const { treatmentId, status } = req.body;
+ const treatment = await Treatment.findByIdAndUpdate(treatmentId, {
+        status,
+      });
+ if (treatment) {
+    res.json(treatment)
+  } else {
+    res.status(404)
+    throw new Error('treatment not found')
+  }
+       
+
+
+     const user = await User.findOne({ _id: treatmentId.userId });
+      const unseenNotifications = user.unseenNotifications;
+      unseenNotifications.push({
+        type: "new-treatmentr-request-changed",
+        message: `Your  treatment has been updated ${status}`,
+        onClickPath: "/notifications",
+      });
+})

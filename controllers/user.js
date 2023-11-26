@@ -33,8 +33,12 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   // to register user require body
   const { name, email, password } = req.body
- // find user 
-  const userExists = await User.findOne({ email })
+ 
+
+
+ 
+  // find user 
+  const userExists = await User.findOne({email})
 // if user exist  throw message user exists
   if (userExists) {
     res.status(400)
@@ -60,6 +64,9 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('Invalid user data')
   }
 })
+
+
+
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -195,6 +202,14 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 })
 
+
+
+
+
+
+
+
+
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({
@@ -213,5 +228,6 @@ module.exports= {
   deleteUser,
   getUserById,
   updateUser,
-  getBookingbyId
+  getBookingbyId,
+  
 }

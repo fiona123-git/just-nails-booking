@@ -9,7 +9,7 @@ const bookingSchema = new mongoose.Schema(
       
     bookingItems: [
       {
-        name: { type: String, required: true },
+        therapy: { type: String, required: true },
         
         date:{type: String,
       required: true},

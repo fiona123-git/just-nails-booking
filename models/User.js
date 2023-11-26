@@ -21,20 +21,21 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false, // to make sure the user not an admin
     },
+    
   },
   {
     timestamps: true,
   }
 )
-// auth the passwords
+ //auth the passwords
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password)
+  //return await bcrypt.compare(enteredPassword, this.password)
 }
 // adding middleware before its saved
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next()
-    // if password is not modified then  it would move to the next step.
+    // if 
   }
 // encrypt password  using asyn methodo
   const salt = await bcrypt.genSalt(10)

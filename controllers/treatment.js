@@ -1,7 +1,7 @@
 
 const asyncHandler = require('express-async-handler')
 const Treatment = require ('../models/Treatment')
-
+const User = require('../models/User')
 /**const getTreatment= asyncHandler(async(res, req) =>{
  
 })
@@ -14,7 +14,7 @@ const getTreatment = asyncHandler(async (req, res) => {
   
 
     res.status(200).json(treatment)
-    
+  
 })
 
 const getTreatmentById = asyncHandler(async (req, res) => {
@@ -46,6 +46,7 @@ const updateTreatment = asyncHandler(async (req, res) => {
     treatment.therapy = therapy
     treatment.description = description
     treatment.price= price
+    
     const updatedTreatment = await Treatment.save()
     res.json(updatedTreatment)
   } else {
@@ -54,39 +55,43 @@ const updateTreatment = asyncHandler(async (req, res) => {
   }
 })
 
-
-
-const createTreatment = asyncHandler (async(res ,req)=>{
-  
- /* const treatment = new Treatment({
-    
- 
-  })
-  
-    
-    const createdTreatment = await treatment.save()
-  
-  res.status(200).json(createdTreatment)*/
- try {
-    const treatment = await Treatment.findOne({ treatment: req.body.treatment });
-    if (treatment) {
-      return res.status(200).send({
-        success: false,
-        message: "Bus already exists",
-      });
+// create  treatment
+const createTreatment = asyncHandler(async(req, res)=>{
+console.log(req.body)
+// if fields not entered the error to add field
+ if(!req.body){
+   res.status(400)
+        throw new Error('Please add a text field')
     }
-  const createdTreatment = new Treatment(req.body);
-    await createdTreatment.save();
-    return res.status(200).send({
-      success: true,
-      message: "treatment added successfully",
-    });
-  } catch (error) {
-    res.status(500).send({ success: false, message: error.message });
-  }
-}) 
+    // create new treatment
+    const treatment = new Treatment({
+    
+     // new treatment requires models + body to validate using user
+    user: req.user._id,
+     therapy: req.body.therapy,
+    
+  
+     description: req.body.description,
+     price: req.body.price
+     
+  })
+ // const treatment  will wait for the promise to fufill and save 
+ 
+
+  const createdTreatment = await treatment.save()
+  res.status(201).json(createdTreatment)
+})
+ 
+ 
+     
+            
 
 
+      
+
+
+
+  
 
 
 
